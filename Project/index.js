@@ -65,6 +65,7 @@ app.post('/register', async (req, res) => {
     //Hash password
     const hash = await bcrypt.hash(req.body.password, 10);
     //Insert username, password into users table
+    //Be sure to edit this to account for customization later, whoever's doing this
     const query = 'INSERT INTO users (username, password) VALUES ($1, $2)';
     db.any(query, [req.body.username, hash])
       .then(function (data) {
@@ -125,11 +126,6 @@ const auth = (req, res, next) => {
     }
     next();
   };
-  
-
-
-
-
 
 
 // Authentication Required
@@ -143,6 +139,24 @@ app.post('/home', (req,res) =>{
   //will get all cutsomization settings from the database then will store in variables.
   
   });
+
+  //Post request for adding events
+  app.post('/eventAdd', async (req, res) => {
+
+    //Insert events into table
+    //SHould work
+    const query = 'INSERT INTO events (user, name, eventDateTime, warnDateTime, description) VALUES ($1, $2 $3, $4. $5)';
+    db.any(query, [req.session.user.username, req.body.name, req.body.eventTime, req.body.warnTime, req.body.description])
+      .then(function (data) {
+        res.redirect('/eventAdd'); 
+      })
+      .catch(function (err) {
+        res.redirect('/eventAdd'); 
+      });
+    //Redirect to get/login if it works, otherwise direct to get/register
+});
+
+
 
 
 

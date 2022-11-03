@@ -9,10 +9,18 @@ Contributors:
 - Dylan Bomgardner
 
 Technology Stack used for the project:
-- (fill this out later)
+- Javascript
+- HTML and EJS
+- CSS
+- SQL
 
 Prerequisites:
+- Docker must be installed
+- Computer must posess a web browser
 
 Instructions on how to run the application locally:
+- Launch Docker
+- Load docker volumes (docker compose up)
+- Run application on web browser
 
 Link:
