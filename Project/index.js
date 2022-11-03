@@ -3,8 +3,8 @@ const app = express();
 const pgp = require('pg-promise')();
 const bodyParser = require('body-parser');
 const session = require('express-session');
-const bcrypt = require('bcrypt');
-const axios = require('axios');
+//const bcrypt = require('bcrypt');
+//const axios = require('axios');
 
 // database configuration
 const dbConfig = {
@@ -32,9 +32,9 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(
     session({
-      secret: process.env.SESSION_SECRET,
-      saveUninitialized: false,
-      resave: false,
+      secret: "XASDASDA",
+      saveUninitialized: true,
+      resave: true,
     })
   );
   
@@ -48,6 +48,7 @@ app.use(
   app.get('/', (req, res) =>{
     res.redirect('/login'); //this will call the /login route in the API
   });
+  
   
   //Get /register
 app.get('/register', (req, res) => {
@@ -165,3 +166,6 @@ app.get("/logout", (req, res) => {
     req.session.destroy();
     res.render("pages/login");
 });
+
+app.listen(3000);
+console.log('Server is listening on port 3000');
