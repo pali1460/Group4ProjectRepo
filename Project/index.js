@@ -101,7 +101,7 @@ app.post("/login", async (req, res) => {
                 api_key: process.env.API_KEY,
               };
             req.session.save();
-            res.redirect('/discover'); //this will call the /discover route in the API
+            res.redirect('/home'); //this will call the /discover route in the API
         }
         else{
             //Log error
@@ -126,12 +126,23 @@ const auth = (req, res, next) => {
     next();
   };
   
+
+
+
+
+
+
 // Authentication Required
 app.use(auth);
 
 
 
+//TO DO-> add home, then get all the 
 
+app.post('/home', (req,res) =>{
+  //will get all cutsomization settings from the database then will store in variables.
+  
+  });
 
 
 
