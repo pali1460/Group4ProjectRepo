@@ -2,3 +2,6 @@ Meeting 1 (Nov 3, 2022)
 - Discussed required features for deliverables
 - Talked about need to update notes on deliverables
 - Note: Place items in "Todo", note that these are all items that are done to do
+- Split user on wireframe into 3 users: New User, Returning User, Logged in User
+- On Wireframes, Make it clearer that page is a page through labeling them
+- Make issues
