@@ -8,16 +8,14 @@ CREATE TABLE IF NOT EXISTS users(
 -- events table is finalized
 CREATE TABLE IF NOT EXISTS events(
 	-- primary key
-    eventNum SERIAL PRIMARY KEY NOT NULL,
+    --eventNum SERIAL PRIMARY KEY NOT NULL,
     -- The user who made this
-    username VARCHAR(50)  REFERENCES users(username),
+    username VARCHAR(50),
     -- Name of the event
     eventName VARCHAR(50), 
     -- Date of Event
     -- Time of Event
-    -- eventDateTime DATETIME,
-    -- Warn Time
-   --  warnDateTime DATETIME,
-    -- Description of Event
+    eventTime DATE,
+    warnTime DATe,
     eventDescription VARCHAR (280)
 );

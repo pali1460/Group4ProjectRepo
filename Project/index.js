@@ -50,7 +50,7 @@ app.use(
   });
   
   
-  //Get /register
+//Get /register
 app.get('/register', (req, res) => {
     res.render('pages/register');
 });
@@ -141,12 +141,17 @@ app.post('/home', (req,res) =>{
   
   });
 
+  //Get event for /eventAdd. This directs to the eventAdd page.
+  app.get('/register', (req, res) => {
+    res.render('pages/eventAdd');
+});
+
   //Post request for adding events
   app.post('/eventAdd', async (req, res) => {
 
     //Insert events into table
-    //SHould work
-    const query = 'INSERT INTO events (user, name, eventDateTime, warnDateTime, description) VALUES ($1, $2 $3, $4. $5)';
+    //Should work, but needs some testing
+    const query = 'INSERT INTO events (username, eventName, eventTime, warnTime, description) VALUES ($1, $2 $3, $4. $5)';
     db.any(query, [req.session.user.username, req.body.name, req.body.eventTime, req.body.warnTime, req.body.description])
       .then(function (data) {
         res.redirect('/eventAdd'); 
@@ -154,7 +159,7 @@ app.post('/home', (req,res) =>{
       .catch(function (err) {
         res.redirect('/eventAdd'); 
       });
-    //Redirect to get/login if it works, otherwise direct to get/register
+    //Redirect to get/eventAdd afterwards
 });
 
 
