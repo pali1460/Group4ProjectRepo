@@ -1,0 +1,61 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+<!--This is the page for adding events-->
+<!--This page requires some data to be provided, namely the userEvents list that is all of the user's events-->
+<main>
+  <div class="container">
+    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+    <h1>My Events</h1>
+    <!--Event Add Form-->
+    <%- include ('../partials/header') %> <%- include ('../partials/menu') %>
+    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+
+    <!--Error Display-->
+    <% if (locals.message) { %>
+      <div
+        class="alert alert-<%- locals.error ? 'danger' : 'success' %>"
+        role="alert"
+      >
+        <%= message %>
+      </div>
+      <% } %>
+
+    <!--Table-->
+    <table class="table">
+      <thead>
+        <tr>
+          <th scope="col">Event Name</th>
+          <th scope="col">Event Time</th>
+          <th scope="col">Description</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody>
+      <!--Script for adding events-->
+      <% for (var i = 0; i < userEvents.length; i++) { %>
+        <!--If we're viewing all courses, OR it's a course taken-->
+        <tr>
+          <th scope="row"><%= userEvents[i].eventName %></th>
+          <td><%= userEvents[i].eventTime %></td>
+          <td><%= userEvents[i].description %></td>
+          <td>
+            <!--Delete Button-->
+              <form action = "/eventDel" method = "POST">
+                <input type="hidden" name = "name" value = "<%= userEvents[i].eventName %>">
+                <input type="hidden" name = "course_name" value = "<%= userEvents[i].eventTime %>">
+                <input type="hidden" name = "credit_hours" value = "<%= courses[i].credit_hours %>">
+              </form>
+            
+            
+          </td>
+        </tr>
+      <%}%>
+      <!--End Script for Adding Events-->
+      </tbody>
+    </table>
+
+
+  </div>
+</main>
+
+<%- include ('../partials/footer') %>

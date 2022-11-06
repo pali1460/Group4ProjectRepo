@@ -1,0 +1,26 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+
+<main>
+  <div class="container">
+    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+    <h1>Login</h1>
+    <!--Login Form-->
+    <form action = '/login' method = 'POST'>
+        <!--Username-->
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" class="form-control" id="username" name = "username" aria-describedby="userHelp" placeholder="Enter Username">
+        </div>
+        <!--Password-->
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" class="form-control" id="password" name = "password" placeholder="Password">
+        </div>
+        <small id="emailHelp" class="form-text text-muted">Don't have an account? <a href="/register">Register!</a></small>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+  </div>
+</main>
+
+<%- include ('../partials/footer') %>
