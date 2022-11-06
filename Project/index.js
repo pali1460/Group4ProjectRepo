@@ -49,6 +49,43 @@ app.use(
     res.redirect('/login'); //this will call the /login route in the API
   });
   
+
+  //Get /customize
+  // Note, this is temporary, shoudl be moved below Authentication once login is complete, here for testing porpouses
+  app.get('/customize', (req, res) => {
+      res.render('pages/customize');
+      /*
+      // used for testing, will delete when login is implemented
+      const query = `INSERT INTO users (username, userPassword) VALUES ('ll1', 'gg');`;
+      db.any(query)
+        db.any(query, [req.body.colBG, req.body.imgBG, 1])
+            .then(function (data) {
+                return console.log("YAY!!!!!!!!!!!!!!!!!!!!!!!");
+            })
+            .catch(function (err) {
+                return console.log(err);
+            });
+            */
+  })
+
+  // Add the custom settings to the database
+  app.post('/customize/addColBG', (req, res) =>{
+
+    const query = `UPDATE users SET colBG = $1 WHERE username = 'll1';`;
+    
+    console.log("COLOR!!!!!!!!!!!!!!!!");
+    console.log(req.body.colBG);
+
+    db.any(query, [req.body.colBG, req.body.imgBG, 1])
+        .then(function (data) {
+            console.log("YAY!!!!!!!!!!!!!!!!!!!!!!!");
+            res.render('pages/customize');
+        })
+        .catch(function (err) {
+            return console.log(err);
+            res.render('pages/customize');
+        });
+  })
   
   //Get /register
 app.get('/register', (req, res) => {
@@ -156,8 +193,6 @@ app.post('/home', (req,res) =>{
       });
     //Redirect to get/login if it works, otherwise direct to get/register
 });
-
-
 
 
 
