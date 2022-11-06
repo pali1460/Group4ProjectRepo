@@ -3,8 +3,8 @@ const app = express();
 const pgp = require('pg-promise')();
 const bodyParser = require('body-parser');
 const session = require('express-session');
-//const bcrypt = require('bcrypt');
-//const axios = require('axios');
+const bcrypt = require('bcrypt');
+const axios = require('axios');
 
 // database configuration
 const dbConfig = {
@@ -13,41 +13,42 @@ const dbConfig = {
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
-  };
+};
   
-  const db = pgp(dbConfig);
+const db = pgp(dbConfig);
   
 // test your database
-  db.connect()
-    .then(obj => {
-      console.log('Database connection successful'); // you can view this message in the docker compose logs
-      obj.done(); // success, release the connection;
-    })
-    .catch(error => {
-      console.log('ERROR:', error.message || error);
-    });
+db.connect()
+  .then(obj => {
+    console.log('Database connection successful'); // you can view this message in the docker compose logs
+    obj.done(); // success, release the connection;
+  })
+  .catch(error => {
+    console.log('ERROR:', error.message || error);
+  });
 
 //App settings
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(
-    session({
-      secret: "XASDASDA",
-      saveUninitialized: true,
-      resave: true,
-    })
-  );
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    resave: false,
+  })
+);
   
-  app.use(
-    bodyParser.urlencoded({
-      extended: true,
-    })
-  );
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
-  //Get / method
-  app.get('/', (req, res) =>{
-    res.redirect('/login'); //this will call the /login route in the API
-  });
+
+//Get / method
+app.get('/', (req, res) =>{
+  res.redirect('/login'); //this will call the /login route in the API
+});
   
 
   //Get /customize
@@ -104,12 +105,15 @@ app.post('/register', async (req, res) => {
     const hash = await bcrypt.hash(req.body.password, 10);
     //Insert username, password into users table
     //Be sure to edit this to account for customization later, whoever's doing this
-    const query = 'INSERT INTO users (username, password) VALUES ($1, $2)';
+    const query = 'INSERT INTO users (username, userPassword) VALUES ($1, $2)';
     db.any(query, [req.body.username, hash])
       .then(function (data) {
+        console.log('Register successful');
+        console.log(data);
         res.redirect('/login'); //this will call the /login route in the API
       })
       .catch(function (err) {
+        console.log('Register problem');
         res.redirect('/register'); //this will call the /register route in the API
       });
     //Redirect to get/login if it works, otherwise direct to get/register
@@ -122,6 +126,7 @@ app.get('/login', (req, res) => {
 
 //Post /login
 // Login submission
+//This is broken. We need some fixing here as logging in throws the "database request failed" error
 app.post("/login", async (req, res) => {
     //Get variables!
     const username = req.body.username;
@@ -129,18 +134,17 @@ app.post("/login", async (req, res) => {
     const query = "SELECT * FROM users WHERE users.username = $1";
     const values = [username];
 
-
     //Get login
     db.one(query, values)
       .then(async (data) => {
-        const match = await bcrypt.compare(req.body.password, data.password); //await is explained in #8
+        const match = await bcrypt.compare(req.body.password, data.userPassword); //await is explained in #8
         if(match){
             //Log session users
             req.session.user = {
                 api_key: process.env.API_KEY,
               };
             req.session.save();
-            res.redirect('/home'); //this will call the /discover route in the API
+            res.redirect('/eventAdd'); //this will call the /discover route in the API
         }
         else{
             //Log error
@@ -159,8 +163,8 @@ app.post("/login", async (req, res) => {
 //Authentication Middleware
 const auth = (req, res, next) => {
     if (!req.session.user) {
-      // Default to register page.
-      return res.redirect('/register');
+      // Default to login page.
+      return res.redirect('/login');
     }
     next();
   };
@@ -170,20 +174,32 @@ const auth = (req, res, next) => {
 app.use(auth);
 
 
-
 //TO DO-> add home, then get all the 
 
-app.post('/home', (req,res) =>{
-  //will get all cutsomization settings from the database then will store in variables.
-  
-  });
 
-  //Post request for adding events
-  app.post('/eventAdd', async (req, res) => {
+app.get("/home", (req, res) => {
+  res.render("pages/home", {
+    username: req.session.user.username,
+    //All custom settings go here
+
+
+    
+  });
+});
+
+
+
+  //Get event for /eventAdd. This directs to the eventAdd page.
+  app.get('/register', (req, res) => {
+    res.render('pages/eventAdd');
+});
+
+//Post request for adding events
+app.post('/eventAdd', async (req, res) => {
 
     //Insert events into table
-    //SHould work
-    const query = 'INSERT INTO events (user, name, eventDateTime, warnDateTime, description) VALUES ($1, $2 $3, $4. $5)';
+    //Should work, but needs some testing
+    const query = 'INSERT INTO events (username, eventName, eventTime, warnTime, description) VALUES ($1, $2 $3, $4. $5)';
     db.any(query, [req.session.user.username, req.body.name, req.body.eventTime, req.body.warnTime, req.body.description])
       .then(function (data) {
         res.redirect('/eventAdd'); 
@@ -191,9 +207,14 @@ app.post('/home', (req,res) =>{
       .catch(function (err) {
         res.redirect('/eventAdd'); 
       });
-    //Redirect to get/login if it works, otherwise direct to get/register
+    //Redirect to get/eventAdd afterwards
 });
 
+//Get eventView page
+//Needs testing
+app.get('/register', (req, res) => {
+  const query = 'SELECT * FROM events WHERE events.username = $1';
+  const values = [req.session.user.username];
 
 
 //Logout
