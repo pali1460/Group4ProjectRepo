@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const axios = require('axios');
-app.use(session({ secret: 'somevalue' }));
 
 // database configuration
 const dbConfig = {
@@ -14,42 +13,42 @@ const dbConfig = {
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
     password: process.env.POSTGRES_PASSWORD,
-  };
+};
   
-  const db = pgp(dbConfig);
+const db = pgp(dbConfig);
   
 // test your database
-  db.connect()
-    .then(obj => {
-      console.log('Database connection successful'); // you can view this message in the docker compose logs
-      obj.done(); // success, release the connection;
-    })
-    .catch(error => {
-      console.log('ERROR:', error.message || error);
-    });
+db.connect()
+  .then(obj => {
+    console.log('Database connection successful'); // you can view this message in the docker compose logs
+    obj.done(); // success, release the connection;
+  })
+  .catch(error => {
+    console.log('ERROR:', error.message || error);
+  });
 
 //App settings
 app.set('view engine', 'ejs');
 app.use(bodyParser.json());
 app.use(
-    session({
-      secret: process.env.SESSION_SECRET,
-      saveUninitialized: false,
-      resave: false,
-    })
-  );
+  session({
+    secret: process.env.SESSION_SECRET,
+    saveUninitialized: false,
+    resave: false,
+  })
+);
   
-  app.use(
-    bodyParser.urlencoded({
-      extended: true,
-    })
-  );
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  })
+);
 
 
-  //Get / method
-  app.get('/', (req, res) =>{
-    res.redirect('/login'); //this will call the /login route in the API
-  });
+//Get / method
+app.get('/', (req, res) =>{
+  res.redirect('/login'); //this will call the /login route in the API
+});
   
   
 //Get /register
@@ -72,9 +71,12 @@ app.post('/register', async (req, res) => {
     const query = 'INSERT INTO users (username, userPassword) VALUES ($1, $2)';
     db.any(query, [req.body.username, hash])
       .then(function (data) {
+        console.log('Register successful');
+        console.log(data);
         res.redirect('/login'); //this will call the /login route in the API
       })
       .catch(function (err) {
+        console.log('Register problem');
         res.redirect('/register'); //this will call the /register route in the API
       });
     //Redirect to get/login if it works, otherwise direct to get/register
@@ -105,7 +107,7 @@ app.post("/login", async (req, res) => {
                 api_key: process.env.API_KEY,
               };
             req.session.save();
-            res.redirect('/home'); //this will call the /discover route in the API
+            res.redirect('/eventAdd'); //this will call the /discover route in the API
         }
         else{
             //Log error
