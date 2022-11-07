@@ -5,3 +5,6 @@ Meeting 1 (Nov 3, 2022)
 - Split user on wireframe into 3 users: New User, Returning User, Logged in User
 - On Wireframes, Make it clearer that page is a page through labeling them
 - Make/assign issues and assign Epics
+- Translate progress messages from slack into GitHub
+
+Meeting 2 (Nov 10, 2022)
