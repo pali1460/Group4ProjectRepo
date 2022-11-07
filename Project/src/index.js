@@ -231,14 +231,11 @@ app.post('/eventDel', async (req, res) => {
   app.post('/customize/addColBG', (req, res) =>{
 
     const query = `UPDATE users SET colBG = $1;`;
-    
-    console.log("COLOR!!!!!!!!!!!!!!!!");
-    console.log(req.body.colBG);
 
     db.any(query, [req.body.colBG, req.body.imgBG, 1])
         .then(function (data) {
-            console.log("YAY!!!!!!!!!!!!!!!!!!!!!!!");
-            res.render('pages/customize');
+            console.log("successfully changed color");
+            //res.render('pages/customize');
         })
         .catch(function (err) {
           res.render('pages/customize');

@@ -20,7 +20,7 @@
                             </form>
                         </div>
                         <div class="col">
-                            <input type="color" id="colBG" value="#0000ff"
+                            <input type="color" id="colBG_input" value="#0000ff"
                             style="width: 4rem; height: 4rem;"
                             >
                         </div>
@@ -102,11 +102,10 @@
     </script>
 
     <!-- Update the color -->
-    <!-- used script found here: https://www.youtube.com/watch?v=DP9-CVgkgDA -->
     <script>
         function changeColor()
         {
-            let color = document.getElementById("colBG").value;
+            let color = document.getElementById("colBG_input").value;
             document.body.style.background = "";
             document.body.style.backgroundColor = color;
             document.getElementById("colBG").value = color;
