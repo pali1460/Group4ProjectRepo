@@ -16,7 +16,6 @@
         <%= message %>
       </div>
       <% } %>
-      <%console.log(userEvents)%>
     <!--Table-->
     <table class="table">
       <thead>
@@ -31,14 +30,15 @@
       <!--Script for adding events-->
       <%for (var i = 0; i < userEvents.length; i++){%>
         <tr>
-          <th scope="row"><%= userEvents[i].eventName %></th>
-          <td><%= userEvents[i].eventTime %></td>
-          <td><%= userEvents[i].eventDescription %></td>
+          <th scope="row"><%= userEvents[i].eventname %></th>
+          <td><%= userEvents[i].eventtime %></td>
+          <td><%= userEvents[i].eventdescription %></td>
           <td>
             <!--Delete Button-->
               <form action = "/eventDel" method = "POST">
                 <input type="hidden" name = "eventName" value = "<%= userEvents[i].eventName %>">
                 <input type="hidden" name = "eventTime" value = "<%= userEvents[i].eventTime %>">
+                <button type="submit" class="btn btn-primary">DELETE</button>
               </form>
           </td>
         </tr>
