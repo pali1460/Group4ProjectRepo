@@ -228,21 +228,38 @@ app.post('/eventDel', async (req, res) => {
   })
 
   // Add the custom settings to the database
+  // background color
   app.post('/customize/addColBG', (req, res) =>{
 
-    const query = `UPDATE users SET colBG = $1;`;
+    const query = `UPDATE users SET colBG = $1 WHERE username = $2;`;
+    const values = [req.body.colBG,req.session.user.username];
 
-    db.any(query, [req.body.colBG, req.body.imgBG, 1])
+    db.one(query, values)
         .then(function (data) {
             console.log("successfully changed color");
-            //res.render('pages/customize');
+            res.render('pages/customize');
         })
         .catch(function (err) {
           res.render('pages/customize');
             return console.log(err);
         });
   })
+  // background image
+  app.post('/customize/addImgBG', (req, res) =>{
 
+    const query = `UPDATE users SET imgBG = $1 WHERE username = $2;`;
+    const values = [req.body.imgBG,req.session.user.username];
+
+    db.one(query, values)
+        .then(function (data) {
+            console.log("successfully changed image");
+            res.render('pages/customize');
+        })
+        .catch(function (err) {
+          res.render('pages/customize');
+            return console.log(err);
+        });
+  })
 
 
 

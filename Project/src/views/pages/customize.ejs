@@ -11,16 +11,14 @@
                 <div class="row">
                         
                         <div class="col">
-                            Pick a Color!
+                            Background Color
                             <br>
                             <form action="/customize/addColBG" method="post">
-                            <button type = "submit" class="btn btn-primary" name = "colBG" id = "colBG" 
-                            value= #0
-                            onclick="changeColor()">Update</button>
+                            <button type = "submit" class="btn btn-primary" name = "colBG" id = "colBG" value= #0 onclick="changeColor()">Update</button>
                             </form>
                         </div>
                         <div class="col">
-                            <input type="color" id="colBG_input" value="#0000ff"
+                            <input type="color" id="colBG_input" value="#000000"
                             style="width: 4rem; height: 4rem;"
                             >
                         </div>
@@ -37,8 +35,10 @@
                     <div class="col">
                         Enter an Image URL!
                         <br>
-                        <button class="btn btn-primary" onclick="changeImage()">Update</button>
-                    </div>
+                        <form action="/customize/addImgBG" method="post">
+                        <button type = "submit" class="btn btn-primary" name = "imgBG" id = "imgBG" value="" onclick="changeBGImage()">Update</button>
+                        </form>
+                   </div>
                     <div class="col">
                         <div class="input-group mb-3">
                             <input type="url" id = "myImg" class="form-control">
@@ -49,57 +49,11 @@
             </div>
         </div>
 
-         <!-- Update Color Card -->
-        <div class="card" style="width: 16rem;">
-            <div class="card-body">
-                <div class="row">
-         
-                    <div class="col">
-                        Pick another Color!
-                        <br>
-                        <button class="btn btn-primary" onclick="changeColor2()">Update</button>
-                    </div>
-                    <div class="col">
-                        <input type="color" id="myCol2" value="#0000ff"
-                        style="width: 4rem; height: 4rem;"
-                        >
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-        <!-- Update Image Card -->
-        <div class="card" style="width: 16rem;">
-            <div class="card-body">
-                <div class="row">
-         
-                    <div class="col">
-                        Enter another Image URL!
-                        <br>
-                        <button class="btn btn-primary" onclick="changeImage2()">Update</button>
-                    </div>
-                    <div class="col">
-                        <div class="input-group mb-3">
-                            <input type="url" id = "myImg2" class="form-control">
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
+       
 
 
 
     </div>
-
-    <script>
-        function getColor()
-        {
-            let col = document.getElementById("myCol").value;
-            return col;
-        }
-    </script>
 
     <!-- Update the color -->
     <script>
@@ -112,6 +66,21 @@
         }
     </script>
 
+
+    <!-- update to an image -->
+    <script>
+        function changeBGImage()
+        {
+            let image = document.getElementById("myImg").value;
+            document.body.style.background = "url("+ image + ")";
+            document.getElementById("imgBG").value = "url("+ image + ")";
+        }
+    </script>
+
+
+
+    <!--
+    Will use later, for now will just use background
     <script>
         function changeColor2()
         {
@@ -122,25 +91,6 @@
             })
         }
     </script>
+    -->
 
-    <!-- update to an image -->
-    <script>
-        function changeImage()
-        {
-            let image = document.getElementById("myImg").value;
-            document.body.style.background = "url("+ image + ")";
-        }
-    </script>
-
-    <!-- update to an image -->
-    <script>
-        function changeImage2()
-        {
-            let image = document.getElementById("myImg2").value;
-            var cards = document.querySelectorAll(".card");
-            cards.forEach(card => {
-                card.style.background = "url("+ image + ")";
-            })
-        }
-    </script>
 <%- include ('../partials/footer') %>
