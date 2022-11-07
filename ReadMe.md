@@ -15,12 +15,14 @@ Technology Stack used for the project:
 - SQL
 
 Prerequisites:
-- Docker must be installed
+- Docker Desktop must be installed
 - Computer must posess a web browser
 
 Instructions on how to run the application locally:
 - Launch Docker
+- Navigate to Project subdirectory of Group4ProjectRepo folder
 - Load docker volumes (docker compose up)
 - Run application on web browser
 
 Link:
+localhost:3000
