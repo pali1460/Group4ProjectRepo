@@ -91,35 +91,38 @@ app.get('/login', (req, res) => {
 // Login submission
 //This is broken. We need some fixing here as logging in throws the "database request failed" error
 app.post("/login", async (req, res) => {
+
+
     //Get variables!
     const username = req.body.username;
     const password = req.body.password;
-    const query = "SELECT * FROM users WHERE users.username = $1";
+    const query = `SELECT * FROM users WHERE username = $1;`;
     const values = [username];
 
-    //Get login
-    db.one(query, values)
-      .then(async (data) => {
-        const match = await bcrypt.compare(req.body.password, data.userPassword); //await is explained in #8
-        if(match){
-            //Log session users
-            req.session.user = {
-                api_key: process.env.API_KEY,
-              };
-            req.session.save();
-            res.redirect('/eventAdd'); //this will call the /discover route in the API
-        }
-        else{
-            //Log error
-            console.log("Incorrect Username or Password.");
-            res.redirect('/login'); //this will call the /login route in the API
-        }
-      })
-      .catch((err) => {
-        console.log("Database request failed");
-        //Render login.ejs
-        res.render('pages/login');
-      });
+    await db.one(query, values)
+        .then(async (data) => {                
+                const match = await bcrypt.compare(password, data.userpassword); //await is explained in #8
+                
+                if(match){
+                    //Log session users
+                    req.session.user = {
+                        api_key: process.env.API_KEY,
+                      };
+                    req.session.save();
+                    res.redirect('/eventAdd'); //this will call the /discover route in the API
+                }
+                else{
+                    //Log error
+                    console.log("Incorrect Username or Password.");
+                    res.redirect('/login'); //this will call the /login route in the API
+                }
+        })
+        .catch((err) => {
+            console.log("Database request failed");
+            //Render login.ejs
+            res.render('pages/login');
+        });
+
   });
 
 
@@ -212,6 +215,35 @@ app.post('/eventDel', async (req, res) => {
     });
   //Redirect to get/eventAdd afterwards
 });
+
+
+ //Get /customize
+  // Note, this is temporary, shoudl be moved below Authentication once login is complete, here for testing porpouses
+  app.get('/customize', (req, res) => {
+      res.render('pages/customize');
+  })
+
+  // Add the custom settings to the database
+  app.post('/customize/addColBG', (req, res) =>{
+
+    const query = `UPDATE users SET colBG = $1;`;
+    
+    console.log("COLOR!!!!!!!!!!!!!!!!");
+    console.log(req.body.colBG);
+
+    db.any(query, [req.body.colBG, req.body.imgBG, 1])
+        .then(function (data) {
+            console.log("YAY!!!!!!!!!!!!!!!!!!!!!!!");
+            res.render('pages/customize');
+        })
+        .catch(function (err) {
+            return console.log(err);
+            res.render('pages/customize');
+        });
+  })
+
+
+
 
 //Logout
 app.get("/logout", (req, res) => {
