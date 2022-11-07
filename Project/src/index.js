@@ -223,8 +223,17 @@ app.post('/eventDel', async (req, res) => {
 
  //Get /customize
   // Note, this is temporary, shoudl be moved below Authentication once login is complete, here for testing porpouses
-  app.get('/customize', (req, res) => {
-      res.render('pages/customize');
+  app.get('/customize', async (req, res) => {
+        const query = `SELECT * FROM users WHERE username = $1`;
+        const values = [req.session.user.username];
+        await db.one(query, values)
+            .then(function (data) {
+                console.log(data.colbg);
+                res.render('pages/customize', {data});
+            })
+            .catch(function (err) {
+                res.redirect('pages/home');
+            });
   })
 
   // Add the custom settings to the database
@@ -237,11 +246,11 @@ app.post('/eventDel', async (req, res) => {
     db.one(query, values)
         .then(function (data) {
             console.log("successfully changed color");
-            res.render('pages/customize');
+            res.redirect('/customize')
         })
         .catch(function (err) {
-          res.render('pages/customize');
-            return console.log(err);
+            console.log(err);
+            res.redirect('/customize');
         });
   })
   // background image
