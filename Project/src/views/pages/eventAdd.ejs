@@ -4,7 +4,7 @@
 <main>
   <div class="container">
     <!-- THE REST OF YOUR HTML CODE GOES HERE -->
-    <h1>Login</h1>
+    <h1>Add an Event!</h1>
     <!--Event Add Form-->
     <form action = '/eventAdd' method = 'POST'>
         <!--req.session.user.username, req.body.name, req.body.eventTime, req.body.warnTime, req.body.description-->
@@ -16,12 +16,16 @@
         </div>
 
         <!--Event Time-->
+        <div class="form-group">
         <label for="eventTime">Event Date:</label>
         <input type="date" id="eventTime" name="eventTime">
+        </div>
 
         <!--Warn Time-->
+        <div class="form-group">
         <label for="eventTime">When do you want us to send an alert?</label>
         <input type="date" id="warnTime" name="warnTime">
+      </div>
 
         <!--Password-->
         <div class="form-group">

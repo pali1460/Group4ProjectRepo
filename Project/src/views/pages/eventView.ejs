@@ -7,9 +7,6 @@
     <!-- THE REST OF YOUR HTML CODE GOES HERE -->
     <h1>My Events</h1>
     <!--Event Add Form-->
-    <%- include ('../partials/header') %> <%- include ('../partials/menu') %>
-    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
-
     <!--Error Display-->
     <% if (locals.message) { %>
       <div
@@ -19,7 +16,7 @@
         <%= message %>
       </div>
       <% } %>
-
+      <%console.log(userEvents)%>
     <!--Table-->
     <table class="table">
       <thead>
@@ -32,21 +29,17 @@
       </thead>
       <tbody>
       <!--Script for adding events-->
-      <% for (var i = 0; i < userEvents.length; i++) { %>
-        <!--If we're viewing all courses, OR it's a course taken-->
+      <%for (var i = 0; i < userEvents.length; i++){%>
         <tr>
           <th scope="row"><%= userEvents[i].eventName %></th>
           <td><%= userEvents[i].eventTime %></td>
-          <td><%= userEvents[i].description %></td>
+          <td><%= userEvents[i].eventDescription %></td>
           <td>
             <!--Delete Button-->
               <form action = "/eventDel" method = "POST">
-                <input type="hidden" name = "name" value = "<%= userEvents[i].eventName %>">
-                <input type="hidden" name = "course_name" value = "<%= userEvents[i].eventTime %>">
-                <input type="hidden" name = "credit_hours" value = "<%= courses[i].credit_hours %>">
+                <input type="hidden" name = "eventName" value = "<%= userEvents[i].eventName %>">
+                <input type="hidden" name = "eventTime" value = "<%= userEvents[i].eventTime %>">
               </form>
-            
-            
           </td>
         </tr>
       <%}%>

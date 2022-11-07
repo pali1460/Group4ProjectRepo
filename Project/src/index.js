@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const session = require('express-session');
 const bcrypt = require('bcrypt');
 const axios = require('axios');
+var activeUser = null;
 
 // database configuration
 const dbConfig = {
@@ -106,6 +107,7 @@ app.post("/login", async (req, res) => {
                 if(match){
                     //Log session users
                     req.session.user = {
+                        username: data.username,
                         api_key: process.env.API_KEY,
                       };
                     req.session.save();
@@ -146,6 +148,7 @@ app.use(auth);
 app.get("/home", (req, res) => {
   res.render("pages/home", {
     username: req.session.user.username,
+    
     //All custom settings go here
 
 
@@ -155,8 +158,8 @@ app.get("/home", (req, res) => {
 
 
 
-  //Get event for /eventAdd. This directs to the eventAdd page.
-  app.get('/register', (req, res) => {
+//Get event for /eventAdd. This directs to the eventAdd page.
+app.get('/eventAdd', (req, res) => {
     res.render('pages/eventAdd');
 });
 
@@ -165,7 +168,7 @@ app.post('/eventAdd', async (req, res) => {
 
     //Insert events into table
     //Should work, but needs some testing
-    const query = 'INSERT INTO events (username, eventName, eventTime, warnTime, description) VALUES ($1, $2 $3, $4. $5)';
+    const query = 'INSERT INTO events (username, eventName, eventTime, warnTime, eventDescription) VALUES ($1, $2, $3, $4, $5)';
     db.any(query, [req.session.user.username, req.body.name, req.body.eventTime, req.body.warnTime, req.body.description])
       .then(function (data) {
         res.redirect('/eventAdd'); 
@@ -178,19 +181,20 @@ app.post('/eventAdd', async (req, res) => {
 
 //Get eventView page
 //Needs testing
-app.get('/register', (req, res) => {
+app.get('/eventView', (req, res) => {
   const query = 'SELECT * FROM events WHERE events.username = $1';
   const values = [req.session.user.username];
 
 
   db.any(query, values)
     .then((userEvents) => {
-      res.render("pages/courses", {
+      res.render("pages/eventView", {
         userEvents,
-        action: req.query.taken ? "delete" : "add",
       });
     })
     .catch((err) => {
+      console.log('Error in Event View');
+
       res.render("pages/eventView", {
         userEvents: [],
         error: true,
@@ -237,8 +241,8 @@ app.post('/eventDel', async (req, res) => {
             res.render('pages/customize');
         })
         .catch(function (err) {
+          res.render('pages/customize');
             return console.log(err);
-            res.render('pages/customize');
         });
   })
 

@@ -22,6 +22,6 @@ CREATE TABLE IF NOT EXISTS events(
     -- Date of Event
     -- Time of Event
     eventTime DATE,
-    warnTime DATe,
-    eventDescription VARCHAR (280)
+    warnTime DATE,
+    eventDescription VARCHAR (255)
 );
