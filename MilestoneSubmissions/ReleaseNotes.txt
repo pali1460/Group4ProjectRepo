@@ -1,0 +1,9 @@
+V0.50:
+- Fixed login issues, making event CREATE and VIEW pages available
+- Added customize page
+- Fixed issues with event ADD function
+- Improved event DELETE functionality and fixed bugs. Now the planner can differentiate between items with the same name!
+- Added logout button
+
+Full release notes:
+https://github.com/pali1460/Group4ProjectRepo/compare/v0.165-alpha...v0.5
