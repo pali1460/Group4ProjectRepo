@@ -209,8 +209,8 @@ app.get('/eventView', (req, res) => {
 app.post('/eventDel', async (req, res) => {
 
   //Should work, but needs some testing
-  const query = 'DELETE FROM events WHERE username = $1 AND eventName = $2';
-  db.any(query, [req.session.user.username, req.body.eventName])
+  const query = 'DELETE FROM events WHERE username = $1 AND eventName = $2 AND eventNum = $3';
+  db.any(query, [req.session.user.username, req.body.eventName, req.body.eventNum])
     .then(function (data) {
       res.redirect('/eventView'); //Temporary redirect. Will redo later.
     })

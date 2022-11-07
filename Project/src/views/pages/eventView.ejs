@@ -37,6 +37,7 @@
             <!--Delete Button-->
               <form action = "/eventDel" method = "POST">
                 <input type="hidden" name = "eventName" value = "<%= userEvents[i].eventname %>">
+                <input type="hidden" name = "eventNum" value = "<%= userEvents[i].eventnum %>">
                 <button type="submit" class="btn btn-primary">DELETE</button>
               </form>
           </td>
