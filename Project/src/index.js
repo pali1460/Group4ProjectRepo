@@ -7,6 +7,9 @@ const bcrypt = require('bcrypt');
 const axios = require('axios');
 var activeUser = null;
 
+// This line of code will allow access of CSS files
+app.use('/public',express.static('public'));
+
 // database configuration
 const dbConfig = {
     host: 'db',
@@ -90,7 +93,6 @@ app.get('/login', (req, res) => {
 
 //Post /login
 // Login submission
-//This is broken. We need some fixing here as logging in throws the "database request failed" error
 app.post("/login", async (req, res) => {
 
 
@@ -111,7 +113,7 @@ app.post("/login", async (req, res) => {
                         api_key: process.env.API_KEY,
                       };
                     req.session.save();
-                    res.redirect('/eventAdd'); //this will call the /discover route in the API
+                    res.redirect('/home'); //this will call the /discover route in the API
                 }
                 else{
                     //Log error
@@ -222,18 +224,8 @@ app.post('/eventDel', async (req, res) => {
 
 
  //Get /customize
-  // Note, this is temporary, shoudl be moved below Authentication once login is complete, here for testing porpouses
   app.get('/customize', async (req, res) => {
-        const query = `SELECT * FROM users WHERE username = $1`;
-        const values = [req.session.user.username];
-        await db.one(query, values)
-            .then(function (data) {
-                console.log(data.colbg);
-                res.render('pages/customize', {data});
-            })
-            .catch(function (err) {
-                res.redirect('pages/home');
-            });
+    res.render('pages/customize');
   })
 
   // Add the custom settings to the database
@@ -262,11 +254,11 @@ app.post('/eventDel', async (req, res) => {
     db.one(query, values)
         .then(function (data) {
             console.log("successfully changed image");
-            res.render('pages/customize');
+            res.redirect('pages/customize');
         })
         .catch(function (err) {
-          res.render('pages/customize');
-            return console.log(err);
+            console.log(err);
+            res.redirect('/customize');
         });
   })
 

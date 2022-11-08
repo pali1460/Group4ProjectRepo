@@ -3,8 +3,9 @@
     "",
     "\\src",
     "\\src\\views",
-    "\\src\\views\\pages"
+    "\\src\\views\\pages",
+    "\\src\\views\\partials"
   ],
-  "SelectedNode": "\\src\\index.js",
+  "SelectedNode": "\\src\\views\\pages\\login.ejs",
   "PreviewInSolutionExplorer": false
 }

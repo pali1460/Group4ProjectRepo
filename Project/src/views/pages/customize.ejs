@@ -1,7 +1,7 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
- <body style=" background-color: <%=data.colbg%>;">
+ <body>
 
     <div class="container">
 
@@ -15,7 +15,7 @@
                             <br>
                             <form action="/customize/addColBG" method="post">
                             <button type = "submit" class="btn btn-primary" name = "colBG" id = "colBG"
-                            value= <%=data.colbg%> onclick="changeColor()">Update</button>
+                            value= #ffffff onclick="changeColor()">Update</button>
                             </form>
                         </div>
                         <div class="col">
