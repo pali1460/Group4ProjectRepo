@@ -148,21 +148,36 @@ app.use(auth);
 
 
 app.get("/home", (req, res) => {
-  res.render("pages/home", {
-    username: req.session.user.username,
+    const query = `SELECT * FROM users WHERE username = $1;`;
+    db.one(query, req.session.user.username)
+        .then((customData) => {
+          
+            res.render("pages/home", {
+            username: req.session.user.username,
     
-    //All custom settings go here
-
-
-    
-  });
+            //All custom settings go here
+            customData
+            });
+        })
+        .catch(function (err) {
+            console.log(err);
+            res.redirect('/login');
+        });
 });
 
 
 
 //Get event for /eventAdd. This directs to the eventAdd page.
 app.get('/eventAdd', (req, res) => {
-    res.render('pages/eventAdd');
+    const query = `SELECT * FROM users WHERE username = $1;`;
+    db.one(query, req.session.user.username)
+        .then((customData) => {
+            res.render("pages/eventAdd", {customData});
+        })
+        .catch(function (err) {
+            console.log(err);
+            res.redirect('/login');
+        });
 });
 
 //Post request for adding events
@@ -183,7 +198,38 @@ app.post('/eventAdd', async (req, res) => {
 
 //Get eventView page
 //Needs testing
-app.get('/eventView', (req, res) => {
+app.get('/eventView', async (req, res) => {
+
+
+    const query1 = `SELECT * FROM users WHERE username = $1;`;
+    const query2 = 'SELECT * FROM events WHERE events.username = $1';
+    const values = [req.session.user.username];
+        await db.one(query1, req.session.user.username)
+            .then((customData) => {          
+                db.any(query2, values)
+                    .then((userEvents) => {
+                      res.render("pages/eventView", {
+                        userEvents,
+                        customData
+                      });
+                    })
+                    .catch((err) => {
+                      console.log('Error in Event View');
+
+                      res.render("pages/eventView", {
+                        userEvents: [],
+                        error: true,
+                        message: err.message,
+                        customData
+                      });
+                    });
+            })
+            .catch(function (err) {
+                console.log(err);
+                res.redirect('/login');
+            });
+
+            /*
   const query = 'SELECT * FROM events WHERE events.username = $1';
   const values = [req.session.user.username];
 
@@ -203,6 +249,7 @@ app.get('/eventView', (req, res) => {
         message: err.message,
       });
     });
+ */
 });
 
 
@@ -225,14 +272,22 @@ app.post('/eventDel', async (req, res) => {
 
  //Get /customize
   app.get('/customize', async (req, res) => {
-    res.render('pages/customize');
+    const query = `SELECT * FROM users WHERE username = $1;`;
+    db.one(query, req.session.user.username)
+        .then((customData) => {          
+            res.render("pages/customize", {customData});
+        })
+        .catch(function (err) {
+            console.log(err);
+            res.redirect('/login');
+        });
   })
 
   // Add the custom settings to the database
   // background color
   app.post('/customize/addColBG', (req, res) =>{
 
-    const query = `UPDATE users SET colBG = $1 WHERE username = $2;`;
+    const query = `UPDATE users SET colBG = $1, imgBG_on = '0' WHERE username = $2;`;
     const values = [req.body.colBG,req.session.user.username];
 
     db.one(query, values)
@@ -248,7 +303,7 @@ app.post('/eventDel', async (req, res) => {
   // background image
   app.post('/customize/addImgBG', (req, res) =>{
 
-    const query = `UPDATE users SET imgBG = $1 WHERE username = $2;`;
+    const query = `UPDATE users SET imgBG = $1, imgBG_on = '1' WHERE username = $2;`;
     const values = [req.body.imgBG,req.session.user.username];
 
     db.one(query, values)

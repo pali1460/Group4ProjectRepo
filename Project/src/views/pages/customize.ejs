@@ -1,7 +1,13 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
 
- <body>
+
+    <%if(customData.imgbg_on == 1){%>
+        <body style="background: <%=customData.imgbg%>; background-size: cover;">
+    <%}%>
+    <%if(customData.imgbg_on == 0){%>
+        <body style="background-color: <%=customData.colbg%>;">
+    <%}%>
 
     <div class="container">
 
@@ -15,11 +21,11 @@
                             <br>
                             <form action="/customize/addColBG" method="post">
                             <button type = "submit" class="btn btn-primary" name = "colBG" id = "colBG"
-                            value= #ffffff onclick="changeColor()">Update</button>
+                             onclick="changeBGColor()">Update</button>
                             </form>
                         </div>
                         <div class="col">
-                            <input type="color" id="colBG_input" value="#000000"
+                            <input type="color" id="colBG_input" value="<%=customData.colbg%>""
                             style="width: 4rem; height: 4rem;"
                             >
                         </div>
@@ -34,7 +40,7 @@
                 <div class="row">
          
                     <div class="col">
-                        Enter an Image URL!
+                        Background Image
                         <br>
                         <form action="/customize/addImgBG" method="post">
                         <button type = "submit" class="btn btn-primary" name = "imgBG" id = "imgBG" value="" onclick="changeBGImage()">Update</button>
@@ -58,7 +64,7 @@
 
     <!-- Update the color -->
     <script>
-        function changeColor()
+        function changeBGColor()
         {
             let color = document.getElementById("colBG_input").value;
             document.body.style.background = "";

@@ -2,10 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\src",
+    "\\src\\public",
     "\\src\\views",
     "\\src\\views\\pages",
     "\\src\\views\\partials"
   ],
-  "SelectedNode": "\\src\\views\\pages\\login.ejs",
+  "SelectedNode": "\\src\\views\\pages\\eventView.ejs",
   "PreviewInSolutionExplorer": false
 }

@@ -1,5 +1,12 @@
 <%- include ('../partials/header') %>
 <%- include ('../partials/menu') %>
+
+ <%if(customData.imgbg_on == 1){%>
+        <body style="background: <%=customData.imgbg%>; background-size: cover;">
+<%}%>
+<%if(customData.imgbg_on == 0){%>
+   <body style="background-color: <%=customData.colbg%>;">
+<%}%>
 <!--This is the page for adding events-->
 <main>
   <div class="container">
