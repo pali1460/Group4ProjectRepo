@@ -281,7 +281,7 @@ app.post('/eventDel', async (req, res) => {
             console.log(err);
             res.redirect('/login');
         });
-  })
+  });
 
   // Add the custom settings to the database
   // background color
@@ -299,7 +299,7 @@ app.post('/eventDel', async (req, res) => {
             console.log(err);
             res.redirect('/customize');
         });
-  })
+  });
   // background image
   app.post('/customize/addImgBG', (req, res) =>{
 
@@ -315,7 +315,7 @@ app.post('/eventDel', async (req, res) => {
             console.log(err);
             res.redirect('/customize');
         });
-  })
+  });
 
 
 
