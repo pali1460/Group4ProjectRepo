@@ -185,7 +185,7 @@ app.post('/eventAdd', async (req, res) => {
 
     //Insert events into table
     //Should work, but needs some testing
-    const query = 'INSERT INTO events (username, eventName, eventTime, warnTime, eventDescription) VALUES ($1, $2, $3, $4, $5)';
+    const query = 'INSERT INTO events (username, eventName, eventTime, warnTime, eventDescription) VALUES ($1, $2, $3, $4, $5);';
     db.any(query, [req.session.user.username, req.body.name, req.body.eventTime, req.body.warnTime, req.body.description])
       .then(function (data) {
         res.redirect('/eventAdd'); 
@@ -202,7 +202,7 @@ app.get('/eventView', async (req, res) => {
 
 
     const query1 = `SELECT * FROM users WHERE username = $1;`;
-    const query2 = 'SELECT * FROM events WHERE events.username = $1';
+    const query2 = 'SELECT * FROM events WHERE events.username = $1;';
     const values = [req.session.user.username];
         await db.one(query1, req.session.user.username)
             .then((customData) => {          
@@ -228,28 +228,6 @@ app.get('/eventView', async (req, res) => {
                 console.log(err);
                 res.redirect('/login');
             });
-
-            /*
-  const query = 'SELECT * FROM events WHERE events.username = $1';
-  const values = [req.session.user.username];
-
-
-  db.any(query, values)
-    .then((userEvents) => {
-      res.render("pages/eventView", {
-        userEvents,
-      });
-    })
-    .catch((err) => {
-      console.log('Error in Event View');
-
-      res.render("pages/eventView", {
-        userEvents: [],
-        error: true,
-        message: err.message,
-      });
-    });
- */
 });
 
 
@@ -272,15 +250,33 @@ app.post('/eventDel', async (req, res) => {
 
  //Get /customize
   app.get('/customize', async (req, res) => {
-    const query = `SELECT * FROM users WHERE username = $1;`;
-    db.one(query, req.session.user.username)
-        .then((customData) => {          
-            res.render("pages/customize", {customData});
-        })
-        .catch(function (err) {
-            console.log(err);
-            res.redirect('/login');
-        });
+    const query1 = `SELECT * FROM users WHERE username = $1;`;
+    const query2 = 'SELECT * FROM eventtype;';
+    const values = [req.session.user.username];
+        await db.one(query1, req.session.user.username)
+            .then((customData) => {          
+                db.any(query2, values)
+                    .then((eventTypes) => {
+                      res.render("pages/customize", {
+                        eventTypes,
+                        customData
+                      });
+                    })
+                    .catch((err) => {
+                      console.log('Error in Event View');
+
+                      res.render("pages/customize", {
+                        eventTypes: [],
+                        error: true,
+                        message: err.message,
+                        customData
+                      });
+                    });
+            })
+            .catch(function (err) {
+                console.log(err);
+                res.redirect('/login');
+            });
   })
 
   // Add the custom settings to the database
@@ -317,7 +313,38 @@ app.post('/eventDel', async (req, res) => {
         });
   })
 
+  // Add the new event types
+  app.post('/customize/addEventType', (req, res) =>{
 
+    const query = `INSERT INTO eventType (etypeName, color) VALUES ($1, $2)`;
+    const values = [req.body.eventTypeName, req.body.eventTypeColor];
+
+    db.one(query, values)
+        .then(function (data) {
+            console.log("successfully created event type");
+            res.redirect('/customize')
+        })
+        .catch(function (err) {
+            console.log(err);
+            res.redirect('/customize');
+        });
+  })
+
+    //Post request for deleting events
+    //Need to refine it
+    app.post('/customize/etypeDel', async (req, res) => {
+
+    //Should work, but needs some testing
+    const query = 'DELETE FROM eventType WHERE etypeNum = $1;';
+    db.any(query, [req.body.etypeNum])
+    .then(function (data) {
+        res.redirect('/customize'); //Temporary redirect. Will redo later.
+    })
+    .catch(function (err) {
+        res.redirect('/customize'); 
+    });
+    //Redirect to get/eventAdd afterwards
+    });
 
 //Logout
 app.get("/logout", (req, res) => {

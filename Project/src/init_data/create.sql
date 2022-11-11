@@ -6,10 +6,23 @@ CREATE TABLE IF NOT EXISTS users(
     colBG CHAR(7),
     imgBG VARCHAR(100), -- note, length may need to be longer???
     imgBG_on BIT,
-    colMenu1 CHAR(7),
-    imgMenu1 VARCHAR(100), -- note, length may need to be longer???
-    imgMenu1_on BIT
+    colCard CHAR(7),
+    imgCard VARCHAR(100), -- note, length may need to be longer???
+    imgCard_on BIT
 );
+
+CREATE TABLE IF NOT EXISTS eventType(
+	-- primary key
+    etypeNum SERIAL PRIMARY KEY NOT NULL,
+    -- event type name
+    etypeName VARCHAR (50),
+    color char(7),
+    image VARCHAR (100),
+    image_on BIT
+);
+
+-- add a default event type
+INSERT INTO eventType (etypeName, color) VALUES (' ', '#FFFFFF');
 
 -- events table is finalized
 CREATE TABLE IF NOT EXISTS events(
@@ -23,5 +36,6 @@ CREATE TABLE IF NOT EXISTS events(
     -- Time of Event
     eventTime DATE,
     warnTime DATE,
-    eventDescription VARCHAR (255)
+    eventDescription VARCHAR (255),
+    eventType INT REFERENCES eventType(etypeNum)
 );
