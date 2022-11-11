@@ -295,7 +295,7 @@ app.post('/eventDel', async (req, res) => {
             console.log(err);
             res.redirect('/customize');
         });
-  })
+  });
   // background image
   app.post('/customize/addImgBG', (req, res) =>{
 
@@ -311,7 +311,7 @@ app.post('/eventDel', async (req, res) => {
             console.log(err);
             res.redirect('/customize');
         });
-  })
+  });
 
   // Add the new event types
   app.post('/customize/addEventType', (req, res) =>{
