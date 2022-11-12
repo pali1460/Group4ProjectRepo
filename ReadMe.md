@@ -1,5 +1,5 @@
 Application Description:
-- A customizable planner that allows the user to create and log in to an account and access their list of assignments and other events, as well as create their own. They will further be able to sort events by type, and be able to filter their list of events by type. 
+- A customizable planner that allows the user to create and log in to an account and access a list of events that they can create and add to: Assignments, exams, and other events can be added to the planner with their own names and descriptions. Users can also set the planner to display urgent events on their homepage and delete events. 
 
 Contributors: 
 - Patrick Liu
