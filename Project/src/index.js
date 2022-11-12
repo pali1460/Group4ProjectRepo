@@ -113,7 +113,7 @@ app.post("/login", async (req, res) => {
                         api_key: process.env.API_KEY,
                       };
                     req.session.save();
-                    res.redirect('/home'); //this will call the /discover route in the API
+                    res.redirect('/home'); //this will call the /home route in the API
                 }
                 else{
                     //Log error
@@ -146,26 +146,40 @@ app.use(auth);
 
 //TO DO-> add home, then get all the 
 
+app.get('/home', async (req, res) => {
 
-app.get("/home", (req, res) => {
-    const query = `SELECT * FROM users WHERE username = $1;`;
-    db.one(query, req.session.user.username)
-        .then((customData) => {
-          
-            res.render("pages/home", {
-            username: req.session.user.username,
-    
-            //All custom settings go here
-            customData
-            });
-        })
-        .catch(function (err) {
-            console.log(err);
-            res.redirect('/login');
-        });
+
+  const query1 = `SELECT * FROM users WHERE username = $1;`;
+  const date = new Date();
+  const query2 = 'SELECT * FROM events WHERE events.username = $1 AND events.warnTime < $2 ORDER BY events.eventTime ASC;';
+  const values = [req.session.user.username, date];
+      await db.one(query1, req.session.user.username)
+          .then((customData) => {          
+              db.any(query2, values)
+                  .then((userEvents) => {
+                    res.render("pages/home", {
+                      userEvents,
+                      username: req.session.user.username,
+                      customData
+                    });
+                  })
+                  .catch((err) => {
+                    console.log('Error in Event View');
+
+                    res.render("pages/home", {
+                      userEvents: [],
+                      username: req.session.user.username,
+                      error: true,
+                      message: err.message,
+                      customData
+                    });
+                  });
+          })
+          .catch(function (err) {
+              console.log(err);
+              res.redirect('/login');
+          });
 });
-
-
 
 //Get event for /eventAdd. This directs to the eventAdd page.
 app.get('/eventAdd', (req, res) => {
@@ -202,7 +216,7 @@ app.get('/eventView', async (req, res) => {
 
 
     const query1 = `SELECT * FROM users WHERE username = $1;`;
-    const query2 = 'SELECT * FROM events WHERE events.username = $1;';
+    const query2 = 'SELECT * FROM events WHERE events.username = $1 ORDER BY eventTime ASC;';
     const values = [req.session.user.username];
         await db.one(query1, req.session.user.username)
             .then((customData) => {          

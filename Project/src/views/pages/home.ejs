@@ -9,13 +9,48 @@
         <body style="background-color: <%=customData.colbg%>;">
     <%}%>
   
-<p>test text</p>
-
 <!-- first in the top left, will greet the user with their username. -->
+<h1>Welcome, <%=username %>!</h1>
 
-<!-- then, will show curr events for the day.-->
 
-<!-- need to brainstorm other things to show-->
+<!--Show number of urgent events-->
+<%const date = new Date();%>
+<p>The current date is <%=date%></p>
+<p>You currently have <%=userEvents.length %> urgent events!</p>
+
+
+<!-- then, will show urgent events-->
+<h1>Urgent Events:</h1>
+<!--Table-->
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Event Name</th>
+        <th scope="col">Event Time</th>
+        <th scope="col">Description</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+    <!--Script for adding events-->
+    <%for (var i = 0; i < userEvents.length; i++){%>
+      <tr>
+        <th scope="row"><%= userEvents[i].eventname %></th>
+        <td><%= userEvents[i].eventtime %></td>
+        <td><%= userEvents[i].eventdescription %></td>
+        <td>
+          <!--Delete Button-->
+            <form action = "/eventDel" method = "POST">
+              <input type="hidden" name = "eventName" value = "<%= userEvents[i].eventname %>">
+              <input type="hidden" name = "eventNum" value = "<%= userEvents[i].eventnum %>">
+              <button type="submit" class="btn btn-primary">DELETE</button>
+            </form>
+        </td>
+      </tr>
+    <%}%>
+    <!--End Script for Adding Events-->
+    </tbody>
+  </table>
 </body>
 
 <%- include ('../partials/footer') %>
