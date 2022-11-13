@@ -22,6 +22,16 @@
           <input type="text" class="form-control" id="name" name = "name" maxlength = "50" aria-describedby="eventName" placeholder="Enter Event Name">
         </div>
 
+        <!-- Event Type-->
+        <div class="form-group">
+        <label for="etype">Event Type:</label>
+            <select name="eventType" id="eventType">
+                <%for (var i = 0; i < eventType.length; i++){%>
+    		        <option value=<%=eventType[i].etypenum%>> <%=eventType[i].etypename%> </option>
+	            <%}%>   
+            </select>
+        </div>
+
         <!--Event Time-->
         <div class="form-group">
         <label for="eventTime">Event Date:</label>

@@ -26,6 +26,7 @@
       <thead>
         <tr>
           <th scope="col">Event Name</th>
+          <th scope="col">Event Type</th>
           <th scope="col">Event Time</th>
           <th scope="col">Description</th>
           <th scope="col">Action</th>
@@ -34,8 +35,9 @@
       <tbody>
       <!--Script for adding events-->
       <%for (var i = 0; i < userEvents.length; i++){%>
-        <tr>
+        <tr style="background-color: <%= userEvents[i].color%>">
           <th scope="row"><%= userEvents[i].eventname %></th>
+          <td><%= userEvents[i].etypename %></td>
           <td><%= userEvents[i].eventtime %></td>
           <td><%= userEvents[i].eventdescription %></td>
           <td>

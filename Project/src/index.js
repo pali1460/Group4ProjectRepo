@@ -182,16 +182,35 @@ app.get('/home', async (req, res) => {
 });
 
 //Get event for /eventAdd. This directs to the eventAdd page.
-app.get('/eventAdd', (req, res) => {
-    const query = `SELECT * FROM users WHERE username = $1;`;
-    db.one(query, req.session.user.username)
+app.get('/eventAdd', async (req, res) => {
+    const query1 = `SELECT * FROM users WHERE username = $1;`;
+    const query2 = `SELECT * FROM eventType WHERE username = $1`;
+    const values = [req.session.user.username];
+    await db.one(query1, values)
         .then((customData) => {
-            res.render("pages/eventAdd", {customData});
+            db.any(query2, values)
+                .then((eventType) => {
+                    res.render("pages/eventAdd", {
+                        eventType,
+                        customData
+                    });
+                })
+                .catch((err) => {
+                    console.log('Error in Event View');
+
+                    res.render("pages/home", {
+                        userEvents: [],
+                        error: true,
+                        message: err.message,
+                        customData
+                    });
+                });
         })
         .catch(function (err) {
             console.log(err);
             res.redirect('/login');
         });
+
 });
 
 //Post request for adding events
@@ -199,8 +218,9 @@ app.post('/eventAdd', async (req, res) => {
 
     //Insert events into table
     //Should work, but needs some testing
-    const query = 'INSERT INTO events (username, eventName, eventTime, warnTime, eventDescription) VALUES ($1, $2, $3, $4, $5);';
-    db.any(query, [req.session.user.username, req.body.name, req.body.eventTime, req.body.warnTime, req.body.description])
+    // tempoaraily use default event type
+    const query = 'INSERT INTO events (username, eventName, eventTime, warnTime, eventDescription, eventType) VALUES ($1, $2, $3, $4, $5, $6);';
+    db.any(query, [req.session.user.username, req.body.name, req.body.eventTime, req.body.warnTime, req.body.description, req.body.eventType])
       .then(function (data) {
         res.redirect('/eventAdd'); 
       })
@@ -216,7 +236,8 @@ app.get('/eventView', async (req, res) => {
 
 
     const query1 = `SELECT * FROM users WHERE username = $1;`;
-    const query2 = 'SELECT * FROM events WHERE events.username = $1 ORDER BY eventTime ASC;';
+    const query2 = `SELECT * FROM events e INNER JOIN eventType t ON e.eventType = t.etypeNum 
+                    WHERE e.username = $1 ORDER BY e.eventTime ASC;`;
     const values = [req.session.user.username];
         await db.one(query1, req.session.user.username)
             .then((customData) => {          
