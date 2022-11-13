@@ -14,6 +14,8 @@ CREATE TABLE IF NOT EXISTS users(
 CREATE TABLE IF NOT EXISTS eventType(
 	-- primary key
     etypeNum SERIAL PRIMARY KEY NOT NULL,
+        -- The user who made this
+    username VARCHAR(50) REFERENCES users(username),
     -- event type name
     etypeName VARCHAR (50),
     color char(7),

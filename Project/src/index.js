@@ -265,7 +265,7 @@ app.post('/eventDel', async (req, res) => {
  //Get /customize
   app.get('/customize', async (req, res) => {
     const query1 = `SELECT * FROM users WHERE username = $1;`;
-    const query2 = 'SELECT * FROM eventtype;';
+    const query2 = 'SELECT * FROM eventType WHERE username = $1;';
     const values = [req.session.user.username];
         await db.one(query1, req.session.user.username)
             .then((customData) => {          
@@ -330,8 +330,8 @@ app.post('/eventDel', async (req, res) => {
   // Add the new event types
   app.post('/customize/addEventType', (req, res) =>{
 
-    const query = `INSERT INTO eventType (etypeName, color) VALUES ($1, $2)`;
-    const values = [req.body.eventTypeName, req.body.eventTypeColor];
+    const query = `INSERT INTO eventType (etypeName, color, username) VALUES ($1, $2, $3)`;
+    const values = [req.body.eventTypeName, req.body.eventTypeColor, req.session.user.username];
 
     db.one(query, values)
         .then(function (data) {
@@ -349,8 +349,8 @@ app.post('/eventDel', async (req, res) => {
     app.post('/customize/etypeDel', async (req, res) => {
 
     //Should work, but needs some testing
-    const query = 'DELETE FROM eventType WHERE etypeNum = $1;';
-    db.any(query, [req.body.etypeNum])
+    const query = 'DELETE FROM eventType WHERE etypeNum = $1 AND username = $2;';
+    db.any(query, [req.body.etypeNum, req.session.user.username])
     .then(function (data) {
         res.redirect('/customize'); //Temporary redirect. Will redo later.
     })
