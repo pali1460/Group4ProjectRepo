@@ -151,7 +151,7 @@ app.get('/home', async (req, res) => {
   const query1 = `SELECT * FROM users WHERE username = $1;`;
   const date = new Date();
     const query2 = `SELECT * FROM events e INNER JOIN eventType t ON e.eventType = t.etypeNum
-    WHERE e.username = $1 AND e.warnTime < $2 ORDER BY e.eventTime ASC;`;
+    WHERE e.username = $1 AND e.warnTime <= $2 ORDER BY e.eventTime ASC;`;
   const values = [req.session.user.username, date];
       await db.one(query1, req.session.user.username)
           .then((customData) => {          
