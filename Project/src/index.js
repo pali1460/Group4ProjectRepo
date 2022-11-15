@@ -73,17 +73,26 @@ app.post('/register', async (req, res) => {
     //Insert username, password into users table
     //Be sure to edit this to account for customization later, whoever's doing this
     const query = 'INSERT INTO users (username, userPassword) VALUES ($1, $2)';
+    const query2 = 'INSERT INTO eventtype (username, etypename, color) VALUES ($1, $2, $3)';    
     db.any(query, [req.body.username, hash])
       .then(function (data) {
         console.log('Register successful');
-        console.log(data);
-        res.redirect('/login'); //this will call the /login route in the API
+        // create default event type for new user
+        db.any(query2, [user, 'default', '#FFFFFF'])
+          .then(function (data) {
+            console.log('Default eventtype successful');
+          })
+          .catch(function (err) {
+            console.log('Error creating default eventtype for new user');
+          });
       })
       .catch(function (err) {
         console.log('Register problem');
-        res.redirect('/register'); //this will call the /register route in the API
+        return res.redirect('/register'); //this will call the /register route in the API
       });
+
     //Redirect to get/login if it works, otherwise direct to get/register
+    return res.redirect('/login'); //this will call the /login route in the API
 });
 
 //Get /login
@@ -263,6 +272,33 @@ app.get('/eventView', async (req, res) => {
                 console.log(err);
                 res.redirect('/login');
             });
+});
+
+app.get('/calendarView', async (req, res) => {
+
+  const query1 = `SELECT * FROM users WHERE username = $1;`;
+  const query2 = `SELECT * FROM events e INNER JOIN eventType t ON e.eventType = t.etypeNum 
+                  WHERE e.username = $1 ORDER BY e.eventTime ASC;`;
+  const user = [req.session.user.username];
+
+  await db.one(query1, user)
+    .then((customData) => {
+      db.any(query2, user)
+        .then((userEvents) => {
+          res.render("pages/calendarView", {
+            userEvents,
+            customData
+          });
+        })
+        .catch((err) => {
+          console.log('Error in Calendar View');
+          return res.redirect('/home');
+        });
+    })
+    .catch(function (err) {
+      console.log(err);
+      res.redirect('/home');
+    });
 });
 
 
