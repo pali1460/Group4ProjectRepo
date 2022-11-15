@@ -156,7 +156,7 @@ app.use(auth);
 //TO DO-> add home, then get all the 
 
 app.get('/home', async (req, res) => {
-
+  sendNotification();
   const query1 = `SELECT * FROM users WHERE username = $1;`;
   const date = new Date();
     const query2 = `SELECT * FROM events e INNER JOIN eventType t ON e.eventType = t.etypeNum
@@ -188,7 +188,33 @@ app.get('/home', async (req, res) => {
               console.log(err);
               res.redirect('/login');
           });
+          /*
+          new Notification();
+          console.log(Notification.permission);
+
+          if(Notification.permission == "granted") {
+            alert("permission granted");
+          }
+          else if(Notification.permission != "denied") {
+            Notification.requestPermission().then(permission => {
+              console.log(permission);
+            });
+          }
+          */
 });
+
+function sendNotification() {
+  console.log(Notification.permission);
+
+          if(Notification.permission == "granted") {
+            alert("permission granted");
+          }
+          else if(Notification.permission != "denied") {
+            Notification.requestPermission().then(permission => {
+              console.log(permission);
+            });
+          }
+}
 
 //Get event for /eventAdd. This directs to the eventAdd page.
 app.get('/eventAdd', async (req, res) => {
@@ -220,16 +246,7 @@ app.get('/eventAdd', async (req, res) => {
             res.redirect('/login');
         });
 
-        console.log(Notification.permission);
 
-        if(Notification.permission == "granted") {
-          alert("permission granted");
-        }
-        else if(Notification.permission != "denied") {
-          Notification.requestPermission().then(permission => {
-            console.log(permission);
-          });
-        }
 
 });
 
