@@ -220,6 +220,17 @@ app.get('/eventAdd', async (req, res) => {
             res.redirect('/login');
         });
 
+        console.log(Notification.permission);
+
+        if(Notification.permission == "granted") {
+          alert("permission granted");
+        }
+        else if(Notification.permission != "denied") {
+          Notification.requestPermission().then(permission => {
+            console.log(permission);
+          });
+        }
+
 });
 
 //Post request for adding events
