@@ -152,9 +152,11 @@
                     && (eDate.getDate() === myDate.getDate()))
                     {
                         var col = document.createElement("card");
-                        col.style.width="1rem";
-                        col.style.height="1rem";
+                        //col.style.width="1rem";
+                        //col.style.height="1rem";
                         col.style.backgroundColor="<%=userEvents[j].color%>";
+                        col.style.color="#000000";
+                        col.innerHTML = "<%=userEvents[j].eventname%>"
                         myCard.appendChild(col);
                     }
             <%}%>
