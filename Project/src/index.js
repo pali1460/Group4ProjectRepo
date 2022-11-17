@@ -200,6 +200,8 @@ app.get('/eventAdd', async (req, res) => {
             db.any(query2, values)
                 .then((eventType) => {
                     res.render("pages/eventAdd", {
+                      username: req.session.user.username,
+
                         eventType,
                         customData
                     });
@@ -208,6 +210,8 @@ app.get('/eventAdd', async (req, res) => {
                     console.log('Error in Event View');
 
                     res.render("pages/home", {
+                      username: req.session.user.username,
+
                         userEvents: [],
                         error: true,
                         message: err.message,
@@ -255,6 +259,7 @@ app.get('/eventView', async (req, res) => {
                 db.any(query2, values)
                     .then((userEvents) => {
                       res.render("pages/eventView", {
+                        username: req.session.user.username,
                         userEvents,
                         customData
                       });
@@ -288,6 +293,7 @@ app.get('/calendarView', async (req, res) => {
       db.any(query2, user)
         .then((userEvents) => {
           res.render("pages/calendarView", {
+            username: req.session.user.username,
             userEvents,
             customData
           });
@@ -331,6 +337,7 @@ app.post('/eventDel', async (req, res) => {
                 db.any(query2, values)
                     .then((eventTypes) => {
                       res.render("pages/customize", {
+                        username: req.session.user.username,
                         eventTypes,
                         customData
                       });
@@ -339,6 +346,7 @@ app.post('/eventDel', async (req, res) => {
                       console.log('Error in Event View');
 
                       res.render("pages/customize", {
+                        username: req.session.user.username,
                         eventTypes: [],
                         error: true,
                         message: err.message,
@@ -428,6 +436,76 @@ app.post('/eventDel', async (req, res) => {
     });
 
     });
+
+//Get Admin Page
+//Get /customize
+app.get('/admin', async (req, res) => {
+  const query1 = `SELECT * FROM users WHERE username = $1;`;
+  const values = [req.session.user.username];
+      await db.one(query1, req.session.user.username)
+          .then((customData) => {          
+            res.render("pages/admin", {
+              username: req.session.user.username,
+              customData
+            });
+          })
+          .catch(function (err) {
+              console.log(err);
+              res.redirect('/home');
+          });
+});
+
+//Delete users
+app.post('/admin/DeleteUser', async (req, res) => {
+
+  //Should work, but needs some testing
+  const query1 = 'DELETE FROM eventType WHERE username = $1';
+  const query2 = 'DELETE FROM events WHERE username = $1';
+  const query3 = 'DELETE FROM users WHERE username = $1';
+
+  //Delete events
+  db.any(query2, [req.body.name])
+    .then(function (data) {
+      console.log("Events deleted");
+
+      //Delete eventTypes
+      db.any(query1, [req.body.name])
+      .then(function (data1) {
+        console.log("Event Types deleted");
+
+        db.any(query3, [req.body.name])
+        .then(function (data) {
+            console.log("User deleted");
+          res.redirect('/admin');   
+        })
+        .catch(function (err) {
+          res.redirect('/admin'); 
+        });
+      })
+      .catch(function (err) {
+        res.redirect('/admin'); 
+      });
+
+    })
+    .catch(function (err) {
+      res.redirect('/admin'); 
+    });
+});
+
+//Delete a user's events
+app.post('/admin/DeleteUserEvents', async (req, res) => {
+
+  //Should work, but needs some testing
+  const query = 'DELETE FROM events WHERE username = $1';
+  db.any(query, [req.body.name])
+    .then(function (data) {
+      res.redirect('/admin'); //Temporary redirect. Will redo later.
+    })
+    .catch(function (err) {
+      res.redirect('/admin'); 
+    });
+  //Redirect to get/eventAdd afterwards
+});
 
 //Logout
 app.get("/logout", (req, res) => {

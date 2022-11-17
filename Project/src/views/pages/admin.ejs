@@ -1,0 +1,47 @@
+<%- include ('../partials/header') %>
+<%- include ('../partials/menu') %>
+
+ <%if(customData.imgbg_on == 1){%>
+        <body style="background: <%=customData.imgbg%>; background-size: cover;">
+<%}%>
+<%if(customData.imgbg_on == 0){%>
+   <body style="background-color: <%=customData.colbg%>;">
+<%}%>
+<!--This is the page for adding events-->
+<main>
+  <div class="container">
+    <!-- THE REST OF YOUR HTML CODE GOES HERE -->
+    <h1>Admin!</h1>
+    <!--Event Add Form-->
+    <h2>Delete a user</h2>
+    <p>This will delete a user, all of their event types, and all of their events.</p>
+    <form action = '/admin/DeleteUser' method = 'POST'>
+        <!--req.session.user.username, req.body.name, req.body.eventTime, req.body.warnTime, req.body.description-->
+        <!--Username is provided by the session-->
+        <!--Event Name-->
+        <div class="form-group">
+          <label for="name">User you want to delete</label>
+          <input type="text" class="form-control" id="name" name = "name" maxlength = "50" aria-describedby="eventName" placeholder="Enter Event Name">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+    <h2>Clear User Events</h2>
+    <p>This will delete all of a user's events</p>
+    <form action = '/admin/DeleteUserEvents' method = 'POST'>
+        <!--req.session.user.username, req.body.name, req.body.eventTime, req.body.warnTime, req.body.description-->
+        <!--Username is provided by the session-->
+        <!--Event Name-->
+        <div class="form-group">
+          <label for="name">User to clear events from</label>
+          <input type="text" class="form-control" id="name" name = "name" maxlength = "50" aria-describedby="eventName" placeholder="Enter Event Name">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+
+  </div>
+</main>
+
+<%- include ('../partials/footer') %>
