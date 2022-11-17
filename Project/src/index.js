@@ -156,7 +156,6 @@ app.use(auth);
 //TO DO-> add home, then get all the 
 
 app.get('/home', async (req, res) => {
-
   const query1 = `SELECT * FROM users WHERE username = $1;`;
   const date = new Date();
     const query2 = `SELECT * FROM events e INNER JOIN eventType t ON e.eventType = t.etypeNum
@@ -190,6 +189,7 @@ app.get('/home', async (req, res) => {
           });
 });
 
+
 //Get event for /eventAdd. This directs to the eventAdd page.
 app.get('/eventAdd', async (req, res) => {
     const query1 = `SELECT * FROM users WHERE username = $1;`;
@@ -219,6 +219,8 @@ app.get('/eventAdd', async (req, res) => {
             console.log(err);
             res.redirect('/login');
         });
+
+
 
 });
 

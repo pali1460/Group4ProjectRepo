@@ -34,6 +34,7 @@
     </thead>
     <tbody>
     <!--Script for adding events-->
+    
     <%for (var i = 0; i < userEvents.length; i++){%>
       <tr style="background-color: <%= userEvents[i].color%>">
           <th scope="row"><%= userEvents[i].eventname %></th>
@@ -54,5 +55,66 @@
     </tbody>
   </table>
 </body>
+
+<% var warn =  userEvents[0].warntime; %>
+<script>
+  //Notification Script
+  
+ var notificationString = "";
+ var ndate = new Date();
+ //date.setHours(0,0,0,0);
+ var date = ndate.toString().substring(4, 16);
+ 
+ //forloop to loop through events. 
+<% for (var i = 0; i <  userEvents.length ; i++) { %>
+
+  //next 4 lines of code get data from the database then converts to .js vars
+  <% var warn =  userEvents[i].warntime; %> 
+  <% var edate = userEvents[i].eventtime %>
+  var edate = "<%= edate %>";
+  var getwarn = "<%= warn %>";
+  
+  //simplifies the date to day not time or timezone. 
+  var eventDate = edate.toString().substring(4, 16);
+  var warn = getwarn.toString().substring(4, 16);
+  
+  //logs for comparing dates and bool return
+  console.log(date);
+  console.log(warn == date);
+  console.log(warn);
+  if(warn == date){ 
+    //adds to the body of the notification if the warn date is today
+    notificationString +=  (<%= i %>+1) + ": <%= userEvents[i].eventname %>, " + "Date: " + eventDate + "\n"; 
+  }
+ <%}%> 
+
+//Notification Permissions
+console.log(Notification.permission);
+
+//creates the data for the notification
+const options = {
+
+  body: notificationString,
+  //purpose of tag is to only send 1 notification then it will update. 
+  tag: "reminder",
+} 
+
+if(Notification.permission == "granted") {
+  //alert("permission granted");
+  //create a notification
+  
+  const notification = new Notification("Events Soon", options);
+}
+else if(Notification.permission != "permission denied") {
+  Notification.requestPermission().then(permission => {
+    console.log(permission);
+
+    if(Notification.permission == "granted") {
+      //creates notification once they allow notifications. 
+      const nnotification = new Notification("Events Soon", options);
+    }
+  });
+}
+</script>
 
 <%- include ('../partials/footer') %>
