@@ -90,6 +90,7 @@ app.post('/register', async (req, res) => {
         console.log('Register problem');
         return res.redirect('/register'); //this will call the /register route in the API
       });
+      //comment
 
     //Redirect to get/login if it works, otherwise direct to get/register
     return res.redirect('/login'); //this will call the /login route in the API
