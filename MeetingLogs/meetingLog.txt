@@ -14,3 +14,7 @@ Meeting 2 (Nov 10, 2022)
 - Make sure to know what features to prioritize like the Home page over the Notifications feature. 
 
 Meeting 3 (Nov 17, 2022)
+- Talked about what everyone did this week. 
+- Discussed the notifications system and talked about how it works. (got approval)
+- We did the weekly plans correctly for the first time. 
+- Looked at current code. 
