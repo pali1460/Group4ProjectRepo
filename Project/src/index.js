@@ -73,7 +73,32 @@ app.post('/register', async (req, res) => {
     //Insert username, password into users table
     //Be sure to edit this to account for customization later, whoever's doing this
     const query = 'INSERT INTO users (username, userPassword) VALUES ($1, $2)';
-    const query2 = 'INSERT INTO eventtype (username, etypename, color) VALUES ($1, $2, $3)';    
+    const query2 = 'INSERT INTO eventtype (username, etypename, color) VALUES ($1, $2, $3)'; 
+   const query3 = `SELECT username FROM users WHERE username = $1`;
+    
+    //checks for duplicate username
+    db.any(query3, user)
+      .then(test => {
+        console.log("Existing Username: " + test[0].username);
+        console.log("inputted Username: " + user);
+        
+        //console.log(user2);
+        if(test[0].username == user)
+        {
+          console.log("duplicate username");
+          return res.redirect('/');
+        }
+        else {
+          console.log("Unique user");
+        }
+      })
+      .catch(function (err) {
+        console.log("error");
+        return res.redirect('/register');
+      });
+    
+    
+
     db.any(query, [req.body.username, hash])
       .then(function (data) {
         console.log('Register successful');
@@ -87,7 +112,7 @@ app.post('/register', async (req, res) => {
           });
       })
       .catch(function (err) {
-        console.log('Register problem');
+        //console.log('Register problem');
         return res.redirect('/register'); //this will call the /register route in the API
       });
       //comment
