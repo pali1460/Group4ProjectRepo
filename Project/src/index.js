@@ -76,7 +76,7 @@ app.post('/register', async (req, res) => {
     const query2 = 'INSERT INTO eventtype (username, etypename, color) VALUES ($1, $2, $3)'; 
    const query3 = `SELECT username FROM users WHERE username = $1`;
     
-    //checks for duplicate username
+    //try insert ignore
     db.any(query3, user)
       .then(test => {
         console.log("Existing Username: " + test[0].username);
