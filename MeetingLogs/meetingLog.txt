@@ -18,3 +18,4 @@ Meeting 3 (Nov 17, 2022)
 - Discussed the notifications system and talked about how it works. (got approval)
 - We did the weekly plans correctly for the first time. 
 - Looked at current code. 
+- Reviewed how we're being graded. Have to make sure to make consistent commits throughout the week. 
