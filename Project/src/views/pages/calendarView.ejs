@@ -9,14 +9,8 @@
 <body onload="setMonth(), setYear(), setDay()">
 <!--This page requires some data to be provided, namely the userEvents list that is all of the user's events-->
 <main>
-<!-- Possibly have weekly table update dynamically like calendar? -->
-<script>
-    function updateWeek(next)
-    {
 
-    }
-</script>
-
+<!--
   <div class="container" id="calendar">
     <table class="table">
     <button type="button" class="btn btn-outline-primary" onclick="updateWeek(0)"> < </button>
@@ -38,7 +32,15 @@
             <tr>
               <% let d = new Date(event.eventtime); %>
               <% let eDay = d.getDay() %>
-              <!-- Date object getDay() returns number where 0=Sunday -->
+              <% let eDate = d.getDate() %>
+              <% let cDay = new Date().getDay() %>
+              <% let cDate = new Date().getDate() %>
+              <% let cMonth = new Date().getMonth() %>
+              <% let cYear = new Date().getFullYear() %>
+        
+              <%if(eDate >= (cDate-cDay) && eDate <= (cDate-cDay+6)){%>
+
+              
               <% if (eDay == 0) { %>
                 <td><%= event.eventname %></td>
               <% } else { %>
@@ -74,13 +76,15 @@
               <% } else { %>
                 <td></td>
               <% } %>
+
+            <%}%>
             </tr>
           </form>
         <% }); %>
       </tbody>
     </table>
   </div>
-
+  -->
 <script> 
     const monthNames = ['January', 'Febuary', 'March', 'April', 'May', 'June',
     'July', 'August', 'September', 'October', 'November', 'December'];
@@ -216,90 +220,55 @@
         </div>
 
         <div class="row">
-            <div class="card col" id="card1" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card2" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card3" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card4" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card5" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card6" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card7" style="height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card1" style="min-height: 6rem; visibility:visible;"></div>
+            <div class="card col" id="card2" style="min-height: 6rem;visibility:visible;"></div>
+            <div class="card col" id="card3" style="min-height: 6rem;visibility:visible;"></div>
+            <div class="card col" id="card4" style="min-height: 6rem;visibility:visible;"></div>
+            <div class="card col" id="card5" style="min-height: 6rem;visibility:visible;"></div>
+            <div class="card col" id="card6" style="min-height: 6rem; visibility:visible;"></div>
+            <div class="card col" id="card7" style="min-height: 6rem; visibility:visible;"></div>
         </div>
 
         <div class="row">
-            <div class="card col" id="card8" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card9" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card10" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card11" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card12" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card13" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card14" style="height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card8" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card9" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card10" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card11" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card12" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card13" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card14" style="min-height:6rem; visibility:visible;"></div>
         </div>
 
         <div class="row">
-            <div class="card col" id="card15" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card16" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card17" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card18" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card19" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card20" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card21" style="height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card15" style=" min-height: 6rem; visibility:visible;"></div>
+            <div class="card col" id="card16" style=" min-height: 6rem; visibility:visible;"></div>
+            <div class="card col" id="card17" style=" min-height: 6rem; visibility:visible;"></div>
+            <div class="card col" id="card18" style=" min-height: 6rem; visibility:visible;"></div>
+            <div class="card col" id="card19" style=" min-height: 6rem; visibility:visible;"></div>
+            <div class="card col" id="card20" style=" min-height: 6rem; visibility:visible;"></div>
+            <div class="card col" id="card21" style=" min-height: 6rem; visibility:visible;"></div>
         </div>
 
         <div class="row">
-            <div class="card col" id="card22" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card23" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card24" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card25" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card26" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card27" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card28" style="height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card22" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card23" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card24" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card25" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card26" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card27" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card28" style="min-height:6rem; visibility:visible;"></div>
         </div>
 
         <div class="row">
-            <div class="card col" id="card29" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card30" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card31" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card32" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card33" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card34" style="height:6rem; visibility:visible;"></div>
-            <div class="card col" id="card35" style="height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card29" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card30" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card31" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card32" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card33" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card34" style="min-height:6rem; visibility:visible;"></div>
+            <div class="card col" id="card35" style="min-height:6rem; visibility:visible;"></div>
         </div>
     </div>
-
-
-    <!--Table-->
-    <table class="table">
-      <thead>
-        <tr>
-          <th scope="col">Event Name</th>
-          <th scope="col">Event Type</th>
-          <th scope="col">Event Time</th>
-          <th scope="col">Description</th>
-          <th scope="col">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-      <!--Script for adding events-->
-      <%for (var i = 0; i < userEvents.length; i++){%>
-        <tr style="background-color: <%= userEvents[i].color%>">
-          <th scope="row"><%= userEvents[i].eventname %></th>
-          <td><%= userEvents[i].etypename %></td>
-          <td><%= userEvents[i].eventtime %></td>
-          <td><%= userEvents[i].eventdescription %></td>
-          <td>
-            <!--Delete Button-->
-              <form action = "/eventDel" method = "POST">
-                <input type="hidden" name = "eventName" value = "<%= userEvents[i].eventname %>">
-                <input type="hidden" name = "eventNum" value = "<%= userEvents[i].eventnum %>">
-                <button type="submit" class="btn btn-primary">DELETE</button>
-              </form>
-          </td>
-        </tr>
-      <%}%>
-      <!--End Script for Adding Events-->
-      </tbody>
-    </table>
-
 
   </div>
 
