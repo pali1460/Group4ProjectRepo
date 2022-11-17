@@ -8,3 +8,9 @@ Meeting 1 (Nov 3, 2022)
 - Translate progress messages from slack into GitHub
 
 Meeting 2 (Nov 10, 2022)
+- Discussed what we've completed. 
+- Were told how to properly show past Plans and future Plans for project.
+- Displayed our functional project.
+- Make sure to know what features to prioritize like the Home page over the Notifications feature. 
+
+Meeting 3 (Nov 17, 2022)
