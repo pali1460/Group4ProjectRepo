@@ -408,15 +408,25 @@ app.post('/eventDel', async (req, res) => {
     app.post('/customize/etypeDel', async (req, res) => {
 
     //Should work, but needs some testing
-    const query = 'DELETE FROM eventType WHERE etypeNum = $1 AND username = $2;';
-    db.any(query, [req.body.etypeNum, req.session.user.username])
+    const query1 = `DELETE FROM events WHERE eventtype = $1;`;
+    const query2 = 'DELETE FROM eventType WHERE etypeNum = $1;';
+    db.any(query1, [req.body.etypeNum, req.session.user.username])
     .then(function (data) {
-        res.redirect('/customize'); //Temporary redirect. Will redo later.
+        db.any(query2, [req.body.etypeNum, req.session.user.username])
+            .then(function (data) {
+                console.log("Sucessfully deleted event");
+                res.redirect('/customize');
+            })
+            .catch(function (err) {
+                console.log(err);
+                res.redirect('/customize');
+            });
     })
     .catch(function (err) {
+        console.log(err);
         res.redirect('/customize'); 
     });
-    //Redirect to get/eventAdd afterwards
+
     });
 
 //Logout
