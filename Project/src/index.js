@@ -445,6 +445,7 @@ app.get('/admin', async (req, res) => {
           });
 });
 
+//Delete users
 app.post('/admin/DeleteUser', async (req, res) => {
 
   //Should work, but needs some testing
@@ -465,19 +466,11 @@ app.post('/admin/DeleteUser', async (req, res) => {
         db.any(query3, [req.body.name])
         .then(function (data) {
             console.log("User deleted");
-          res.redirect('/admin'); 
-
-    
-  
-    
+          res.redirect('/admin');   
         })
         .catch(function (err) {
           res.redirect('/admin'); 
         });
-  
-  
-  
-  
       })
       .catch(function (err) {
         res.redirect('/admin'); 
@@ -489,6 +482,7 @@ app.post('/admin/DeleteUser', async (req, res) => {
     });
 });
 
+//Delete a user's events
 app.post('/admin/DeleteUserEvents', async (req, res) => {
 
   //Should work, but needs some testing
