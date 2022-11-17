@@ -1,3 +1,15 @@
+v1.0:
+Calendar page created
+Color coordination for event types added
+Event types available for creation on customize page
+Notifications system created
+Home page created
+What's Changed
+Notification by @Dylan-Bomgardner in #40
+New Contributors
+@Dylan-Bomgardner made their first contribution in #40
+Full Changelog: v0.8...v1.0
+
 V0.8:
 - Implemented some homepage-related features and customization
 
