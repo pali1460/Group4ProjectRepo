@@ -8,108 +8,101 @@
     <body style="background-color: <%=customData.colbg%>;">
 <%}%>
 
-    <div class="row justify-content-center">
-
-    <!-- Custom Options -->
-    <div class="col-4">
-        <!-- Customize Background -->
-        <h2> Change your Background </h2>
-        <div class="card" style="width: 24rem;">
-            <div class="card-body">
-                <h5>Background</h5>
-                <!-- Color -->
-                <div class="row">
-                    <div class="col">
-                        <form action="/customize/addColBG" method="post">
-                        <button type = "submit" class="btn btn-primary" name = "colBG" id = "colBG"
-                            onclick="changeBGColor()">Update Color</button>
-                        </form>
-                    </div>
-                    <div class="col">
-                        <input type="color" id="colBG_input" value="<%=customData.colbg%>"
-                        style="width: 4rem; height: 4rem;"
-                        >
-                    </div>
-                </div>
-                <!-- Image -->
-                <div class="row">
-                    <div class="col">
-                        <form action="/customize/addImgBG" method="post">
-                        <button type = "submit" class="btn btn-primary" name = "imgBG" id = "imgBG" value="" onclick="changeBGImage()">Update Image</button>
-                        </form>
-                   </div>
-                    <div class="col">
-                        <div class="input-group mb-3">
-                            <input type="url" id = "imgBG_input" class="form-control" required>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
-        <!-- Create Event Type -->
-        <h2> Add an Event Type </h2>
-        <div class="card" style="width: 24rem;">
-            <div class="card-body">
-            <form action="/customize/addEventType" method="post">
-                <h5>Create New Event Type</h5>
-                <!-- Name -->
-                <div class="row">
-                    <div class="col">
-                        Event Type Name
-                    </div>
-                    <div class="col">
-                        <div class="input-group mb-3">
-                            <input type="text" name="eventTypeName" id = "eventTypeName" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <!-- Color -->
-                <div class="row">
-                    <div class="col">
-                        Set Color
-                    </div>
-                    <div class="col">
-                        <input type="color" name="eventTypeColor" id="eventTypeColor" value="<%=customData.colbg%>"
-                        style="width: 4rem; height: 4rem;"
-                        >
-                    </div>
-                </div>
-                <div class="row justify-content-center">
-                    <button type = "submit" class="btn btn-primary">Add New Event Type</button>
-                </div>
-            </form>
-            </div>
-        </div>
-
-    <!-- end of col -->
-    </div>
-
-    <!-- Display Event Types -->
-    <div class="col-4">
-    <h2> Your Event Types </h2>
-        <%for (var i = 0; i < eventTypes.length; i++){%>
-            <div class="card">
+    <div class="d-flex justify-content-center">
+        <!-- Custom Options -->
+        <div class="row-4">
+            <!-- Customize Background -->
+            <h4> Change your Background</h4>
+            <div class="card" style="width: 24rem;">
                 <div class="card-body">
-                <div class="row justify-content-around">
-                    <p><%= eventTypes[i].etypename %></p>
-                    <div class="card" style="background-color:<%= eventTypes[i].color %>; width: 2rem; height:2rem"> </div>
-                    <!--Delete Button-->
-                    <form action = "/customize/etypeDel" method = "POST">
-                        <input type="hidden" name = "etypeNum" value = "<%= eventTypes[i].etypenum %>">
-                        <button type="submit" class="btn btn-primary">DELETE</button>
-                    </form>
-                </div>
+                    <h5>Background</h5>
+                    <!-- Color -->
+                    <div class="row">
+                        <div class="col">
+                            <form action="/customize/addColBG" method="post">
+                            <button type = "submit" class="btn btn-primary" name = "colBG" id = "colBG"
+                                onclick="changeBGColor()">Update Color</button>
+                            </form>
+                        </div>
+                        <div class="col">
+                            <input type="color" id="colBG_input" value="<%=customData.colbg%>"
+                            style="width: 4rem; height: 4rem;"
+                            >
+                        </div>
+                    </div>
+                    <!-- Image -->
+                    <div class="row">
+                        <div class="col">
+                            <form action="/customize/addImgBG" method="post">
+                            <button type = "submit" class="btn btn-primary" name = "imgBG" id = "imgBG" value="" onclick="changeBGImage()">Update Image</button>
+                            </form>
+                    </div>
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <input type="url" id = "imgBG_input" class="form-control" required>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        <%}%>
+        </div>
+
+        <div class="row-4">
+            <!-- Create Event Type -->
+            <h4> Add an Event Type </h4>
+            <div class="card" style="width: 24rem;">
+                <div class="card-body">
+                <form action="/customize/addEventType" method="post">
+                    <h5>Create New Event Type</h5>
+                    <!-- Name -->
+                    <div class="row">
+                        <div class="col">
+                            Event Type Name
+                        </div>
+                        <div class="col">
+                            <div class="input-group mb-3">
+                                <input type="text" name="eventTypeName" id = "eventTypeName" class="form-control">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Color -->
+                    <div class="row">
+                        <div class="col">
+                            Set Color
+                        </div>
+                        <div class="col">
+                            <input type="color" name="eventTypeColor" id="eventTypeColor" value="<%=customData.colbg%>"
+                            style="width: 4rem; height: 4rem;"
+                            >
+                        </div>
+                    </div>
+                    <div class="row justify-content-center">
+                        <button type = "submit" class="btn btn-primary">Add New Event Type</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Display Event Types -->
+        <div class="row-4">
+            <h4> Your Event Types </h4>
+            <%for (var i = 0; i < eventTypes.length; i++){%>
+                <div class="card">
+                    <div class="card-body">
+                    <div class="row justify-content-around">
+                        <p><%= eventTypes[i].etypename %></p>
+                        <div class="card" style="background-color:<%= eventTypes[i].color %>; width: 2rem; height:2rem"> </div>
+                        <!--Delete Button-->
+                        <form action = "/customize/etypeDel" method = "POST">
+                            <input type="hidden" name = "etypeNum" value = "<%= eventTypes[i].etypenum %>">
+                            <button type="submit" class="btn btn-primary">DELETE</button>
+                        </form>
+                    </div>
+                </div>
+            <%}%>
+        </div>
     </div>
-
-    </div>
-
-
-
 
     <!-- Update the color -->
     <script>
@@ -131,6 +124,6 @@
         }
     </script>
 
-
+</body>
 
 <%- include ('../partials/footer') %>
