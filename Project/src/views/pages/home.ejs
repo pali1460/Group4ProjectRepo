@@ -10,13 +10,13 @@
     <%}%>
   
 <!-- first in the top left, will greet the user with their username. -->
-<h1>Welcome, <%=username %>!</h1>
+<h1>Welcome, <%=username %></h1>
 
 
 <!--Show number of urgent events-->
 <%const date = new Date();%>
-<p>The current date is <%=date%></p>
-<p>You currently have <%=userEvents.length %> urgent events!</p>
+<p>The current date is <%= date.toDateString(); %>.</p>
+<p>You currently have <%=userEvents.length %> urgent events.</p>
 
 
 <!-- then, will show urgent events-->
