@@ -15,8 +15,10 @@
 
 <!--Show number of urgent events-->
 <%const date = new Date();%>
-<p>The current date is <%= date.toDateString(); %>.</p>
-<p>You currently have <%=userEvents.length %> urgent events.</p>
+<p>
+  The current date is <%= date.toDateString(); %>.<br>
+  You currently have <%=userEvents.length %> urgent events.
+</p>
 
 
 <!-- then, will show urgent events-->
@@ -27,7 +29,7 @@
       <tr>
         <th scope="col">Event Name</th>
         <th scope="col">Event Type</th>
-        <th scope="col">Event Time</th>
+        <th scope="col">Event Date</th>
         <th scope="col">Description</th>
         <th scope="col">Action</th>
       </tr>
@@ -39,7 +41,7 @@
       <tr style="background-color: <%= userEvents[i].color%>">
           <th scope="row"><%= userEvents[i].eventname %></th>
           <td><%= userEvents[i].etypename %></td>
-          <td><%= userEvents[i].eventtime %></td>
+          <td><%= userEvents[i].eventtime.toDateString(); %></td>
           <td><%= userEvents[i].eventdescription %></td>
           <td>
             <!--Delete Button-->
