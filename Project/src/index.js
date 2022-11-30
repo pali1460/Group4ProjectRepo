@@ -107,21 +107,23 @@ app.post('/register', async (req, res) => {
           .then(function (data) {
             console.log('Default eventtype successful');
             m = true;
-            return;
+            return res.redirect('/login');
           })
           .catch(function (err) {
             console.log('Error creating default eventtype for new user');
+            return res.redirect('/register');
           });
       })
       .catch(function (err) {
         console.log('Register problem');
         //console.log(err);
-        return; //this will call the /register route in the API
+        
+        return res.redirect('register'); //this will call the /register route in the API
       });
       //comment
     //Redirect to get/login if it works, otherwise direct to get/register
-    console.error(m);
-    return res.redirect('/login'); //this will call the /login route in the API
+    //console.error(m);
+    //return res.redirect('/login'); //this will call the /login route in the API
 });
 
 
