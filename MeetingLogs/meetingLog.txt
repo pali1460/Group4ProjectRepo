@@ -19,3 +19,6 @@ Meeting 3 (Nov 17, 2022)
 - We did the weekly plans correctly for the first time. 
 - Looked at current code. 
 - Reviewed how we're being graded. Have to make sure to make consistent commits throughout the week. 
+
+Meeting 4 (Nov 30, 2022)
+- 
