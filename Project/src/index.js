@@ -66,34 +66,66 @@ app.post('/register', async (req, res) => {
     //the logic goes here
     //Get name and password
     const user = req.body.username;
-    const pass = req.body.password;
-
+    var pass = req.body.password;
+    //var passs = 0;
     //Hash password
     const hash = await bcrypt.hash(req.body.password, 10);
     //Insert username, password into users table
     //Be sure to edit this to account for customization later, whoever's doing this
     const query = 'INSERT INTO users (username, userPassword) VALUES ($1, $2)';
-    const query2 = 'INSERT INTO eventtype (username, etypename, color) VALUES ($1, $2, $3)';    
+    const query2 = 'INSERT INTO eventtype (username, etypename, color) VALUES ($1, $2, $3)'; 
+  // const query3 = `SELECT username FROM users WHERE username = $1`;
+    //var pass = await bcrypt.hash(pass, 10);
+      // db.any(query3, user)
+      // .then(test => {
+      //   console.log("Existing Username: " + test[0].username);
+      //   //console.log("Existing Password: " + test[0].userPassword);
+      //   console.log("Inputted Username: " + user);
+      //   console.log("Inputted Password: " + pass);
+        
+      //   //console.log(user2);
+      //   if((test[0].username) == user)
+      //   {
+      //     console.log("duplicate username and password");
+      //     return res.redirect('/register');
+      //   }
+      //   else {
+      //     console.log("Unique user");
+      //     //promise.resolve();
+      //   }
+      // })
+      // .catch(function (err) {
+      //   console.log("error");
+      //   return res.redirect('/register');
+      // });
+    
     db.any(query, [req.body.username, hash])
-      .then(function (data) {
+      .then(async function (data) {
         console.log('Register successful');
         // create default event type for new user
         db.any(query2, [user, 'default', '#FFFFFF'])
           .then(function (data) {
             console.log('Default eventtype successful');
+            m = true;
+            return res.redirect('/login');
           })
           .catch(function (err) {
             console.log('Error creating default eventtype for new user');
+            return res.redirect('/register');
           });
       })
       .catch(function (err) {
         console.log('Register problem');
-        return res.redirect('/register'); //this will call the /register route in the API
+        //console.log(err);
+        
+        return res.redirect('register'); //this will call the /register route in the API
       });
-
+      //comment
     //Redirect to get/login if it works, otherwise direct to get/register
-    return res.redirect('/login'); //this will call the /login route in the API
+    //console.error(m);
+    //return res.redirect('/login'); //this will call the /login route in the API
 });
+
 
 //Get /login
 app.get('/login', (req, res) => {
